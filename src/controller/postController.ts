@@ -13,29 +13,18 @@ import Post from "../model/postModel";
  * @returns {Response} endpoint response
  */
 const getPosts = async (req: Request, res: Response) => {
-  const postId = req.body.params;
+  const postName = req.params;
   const post = await postModel.aggregate([
     {
       $match: {
-        _id: new mongoose.Types.ObjectId(postId),
-        $project: { desc: "$description" },
+        postN: postName,
+        $group: { _id: "$description" ,Likes:{$sum:"$numberOfLikes"}},
       },
     },
   ]);
   console.log(post);
   res.send(post)
   return Post.find()
-    .then((posts) =>
-      res.status(200).json(
-        posts.map((post) => ({
-          postName: post.postName,
-          description: post.description,
-          numberOfLikes: post.numberOfLikes,
-          dateOfPost: post.dateOfPost,
-        }))
-      )
-    )
-    .catch((error) => res.status(500).json({ error }));
 };
 
 export default { getPosts };
