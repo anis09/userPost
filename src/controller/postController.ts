@@ -13,18 +13,24 @@ import Post from "../model/postModel";
  * @returns {Response} endpoint response
  */
 const getPosts = async (req: Request, res: Response) => {
-  const postName = req.params.postName;
-  const post = await postModel.aggregate([
-    {
-      $match: {
-        postN: {_id: postName}
-      },
-    },
-  ]);
-
-   res.send(post)
-  
-  
+    const Name = req.params.postName;
+    const post = await Post.aggregate([
+      {
+        "$match": {
+          postName: Name}},
+          {
+          "$group":{_id:{"descriptions":"$description","Names":"$postName","NumberOfLikes":"$numberOfLikes"}},},
+          
+          
+         
+          
+    ]);
+    
+     res.send(post)
+    return Post.find()
+ 
 };
 
 export default { getPosts };
+
+
