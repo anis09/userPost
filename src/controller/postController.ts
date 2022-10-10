@@ -1,4 +1,4 @@
-import { request, Request, response, Response } from "express";
+import {  Request, Response } from "express";
 import Post from "../model/postModel";
 
 /**
@@ -11,19 +11,24 @@ import Post from "../model/postModel";
  * @returns {Response} endpoint response
  */
 const getPosts = async (req: Request, res: Response) => {
-    const Name = req.params.postName;
+    const postName = req.params.postName;
+    const exist = await Post.findOne({postName});
+    
+    if(!exist){
+        return res.status(404).json({message:"Post Name doesn't exist"})
+    }
     const post = await Post.aggregate([
       {
         "$match": {
-          postName: Name}},
+          postName: postName}},
           {
           "$group":{_id:{"descriptions":"$description","PostOwner":"$postName","NumberOfLikes":"$numberOfLikes"
-          , createdAt: "$dateOfPost"}},},
+          , "createdAt": "$dateOfPost"}},},
           
     ]);
-    
+    console.log(post)
      res.send(post)
-    return Post.find({Name})
+    
  
 };
 
