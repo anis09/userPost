@@ -1,6 +1,4 @@
 import { request, Request, response, Response } from "express";
-import mongoose from "mongoose";
-import postModel from "../model/postModel";
 import Post from "../model/postModel";
 
 /**
@@ -19,10 +17,7 @@ const getPosts = async (req: Request, res: Response) => {
         "$match": {
           postName: Name}},
           {
-          "$group":{_id:{"descriptions":"$description","Names":"$postName","NumberOfLikes":"$numberOfLikes"}},},
-          
-          
-         
+          "$group":{_id:{"descriptions":"$description","PostOwner":"$postName","NumberOfLikes":"$numberOfLikes",year:{$year:"$dateOfPost"},month:{$month:"$dateOfPost"}}},},
           
     ]);
     
