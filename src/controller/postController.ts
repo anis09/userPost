@@ -17,12 +17,13 @@ const getPosts = async (req: Request, res: Response) => {
         "$match": {
           postName: Name}},
           {
-          "$group":{_id:{"descriptions":"$description","PostOwner":"$postName","NumberOfLikes":"$numberOfLikes",year:{$year:"$dateOfPost"},month:{$month:"$dateOfPost"}}},},
+          "$group":{_id:{"descriptions":"$description","PostOwner":"$postName","NumberOfLikes":"$numberOfLikes"
+          , createdAt: "$dateOfPost"}},},
           
     ]);
     
      res.send(post)
-    return Post.find()
+    return Post.find({Name})
  
 };
 
