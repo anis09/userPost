@@ -13,18 +13,18 @@ import Post from "../model/postModel";
  * @returns {Response} endpoint response
  */
 const getPosts = async (req: Request, res: Response) => {
-  const postName = req.params;
+  const postName = req.params.postName;
   const post = await postModel.aggregate([
     {
       $match: {
-        postN: postName,
-        $group: { _id: "$description" ,Likes:{$sum:"$numberOfLikes"}},
+        postN: {_id: postName}
       },
     },
   ]);
-  console.log(post);
-  res.send(post)
-  return Post.find()
+
+   res.send(post)
+  
+  
 };
 
 export default { getPosts };

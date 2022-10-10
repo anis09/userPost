@@ -8,7 +8,7 @@ export const StartServer = () => {
   router.use(express.urlencoded({ extended: true }));
   router.use(express.json());
 
-  //Routes
+  
   router.use("/posts", postRoute);
 
   router.use((req, res, next) => {
